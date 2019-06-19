@@ -1,0 +1,787 @@
+-- LTL model-checking for four-armed junction case.
+
+-- We verify the formal model of traffic signals controller
+
+-- for four-armed intersection design with contraflow lanes for BRT.
+
+
+
+MODULE main
+
+
+
+VAR
+
+-- Declaration of states.
+
+	state: {s0,s1,s2,s3,s4,s5,s6,s7,s8,s9,s10,s11,s12,s13,s14,s15,s16,s17,s18,s19};
+
+ASSIGN
+
+-- Declaration of transition among states.
+
+	init(state) := s0;
+
+	next(state) := 
+
+	case
+
+		state = s0 : {s1};
+
+		state = s1 : {s2};
+
+		state = s2 : {s3};
+
+		state = s3 : {s4};
+
+		state = s4 : {s5};
+
+		state = s5 : {s6};
+
+		state = s6 : {s7};
+
+		state = s7 : {s8};
+
+		state = s8 : {s9};
+
+		state = s9 : {s10};
+
+		state = s10 : {s11};
+
+		state = s11 : {s12};
+
+		state = s12 : {s13};
+
+		state = s13 : {s14};
+
+		state = s14 : {s15};
+
+		state = s15 : {s16};
+
+		state = s16 : {s17};
+		
+		state = s17 : {s18};
+
+		state = s18 : {s19};
+
+		state = s19 : {s0};
+
+	esac;
+
+
+
+DEFINE
+
+-- Definition of the labeling functions for atomic proposition.
+
+-- =================================================================================================
+
+-- TRAFFIC SIGNALS LOCATED ON AREA 1.
+
+-- C1s: controls traffic flows for non-BRT vehicles in west-east direction (from area 1 to area 2).
+
+	C1s.g	:= state = s0 | state = s1 | state = s2;
+
+	C1s.y	:= state = s3 |  state = s19 ;
+
+	C1s.r	:= state = s4 |state = s5 | state = s6 | state = s7 | state = s8 | state = s9  | state = s10 | state = s11 | state = s12 | state = s13 | state = s14 | state = s15 | state = s16 | state = s17 | state = s18 | state = s19; 
+
+-- C1r: controls traffic flows for non-BRT vehicles in west-south direction (from area 1 to area 4).
+
+	C1r.g	:= state = s0;
+
+	C1r.y	:= state = s1 | state = s19;
+
+	C1r.r	:= state = s2 | state = s3 | state = s4 | state = s5 | state = s6 | state = s7 | state = s8 | state = s9 | state = s10 | state = s11 | state = s12 | state = s13 | state = s14 | state = s15 | state = s16 | state = s17 | state = s18 | state = s19;
+  
+-- B1s: controls traffic flows for BRT in west-east direction (from area 1 to area 2).
+
+	B1s.g	:=	state = s2 | state = s3 | state = s4; 
+
+	B1s.y	:=	state = s1 | state = s5;
+
+	B1s.r	:=	state = s0 | state = s1 | state = s6 | state = s7 | state = s8 | state = s9 | state = s10 | state = s11 | state = s12 | state = s13 | state = s14 | state = s15 | state = s16 | state = s17 | state = s18 | state = s19;
+
+-- B1r: controls traffic flows for BRT in west-south direction (from area 1 to area 4).
+
+	B1r.g	:=	state = s0; 
+
+	B1r.y	:=	state = s1 | state = s19;
+
+	B1r.r	:=	state = s2 | state = s3 | state = s4 |state = s5 | state = s6 | state = s7 |state = s8 | state = s9 | state = s10 | state = s11 | state = s12 | state = s13 | state = s14 | state = s15 | state = s16 | state = s17 | state = s18 | state = s19;
+
+-- B1l: controls traffic flows for BRT in west-north direction (from area 1 to area 3).
+
+	B1l.g	:=	state = s4; 
+
+	B1l.y	:=	state = s3 | state = s5;
+
+	B1l.r	:=	state = s0 | state = s1 | state = s2 |state = s3 | state = s6 | state = s7 |state = s8 | state = s9 | state = s10 | state = s11 | state = s12 | state = s13 | state = s14 | state = s15 | state = s16 | state = s17 | state = s18 | state = s19;		
+
+-- =================================================================================================
+
+-- TRAFFIC SIGNALS LOCATED ON AREA 2.
+
+-- C2s: controls traffic flows for non-BRT vehicles in north-south direction (from area 2 to area 1).
+
+	C2s.g	:= state = s2 | state = s3 | state = s4 |state = s5 | state = s6 ;
+
+	C2s.y	:= state = s1 | state = s7;
+
+	C2s.r	:= state = s0 | state = s1 | state = s8 | state = s9 | state = s10 | state = s11 | state = s12 | state = s13 | state = s14 | state = s15 | state = s16 | state = s17 | state = s18 | state = s19;
+
+-- C2r: controls traffic flows for non-BRT vehicles in north-west direction (from area 2 to area 3).
+
+	C2r.g	:= state = s6 ;
+
+	C2r.y	:= state = s5 | state = s7;
+
+	C2r.r	:= state = s0 | state = s1 | state = s2 | state = s3 | state = s4 | state = s5 | state = s8 | state = s9 | state = s10 | state = s11 | state = s12 | state = s13 | state = s14 | state = s15 | state = s16 | state = s17 | state = s18 | state = s19;
+
+-- B2s: controls traffic flows for BRT in north-south direction (from area 2 to area 1).
+
+	B2s.g	:=	state = s2; 
+
+	B2s.y	:=	state = s1 | state = s3;
+
+	B2s.r	:=	state = s0 | state = s1 | state = s4 | state = s5 | state = s6 | state = s7 | state = s8 |  state = s9 |state = s10 | state = s11 | state = s12 | state = s13 | state = s14 | state = s15 | state = s16 | state = s17 | state = s18 | state = s19 ;
+
+-- B2r: controls traffic flows for BRT in north-west direction (from area 2 to area 3).
+
+	B2r.g	:=	state = s6; 
+
+	B2r.y	:=	state = s5 | state = s7;
+
+	B2r.r	:=	state = s0 | state = s1 | state = s2 | state = s3 | state = s4 | state = s5 | state = s8 | state = s9 | state = s10 | state = s11 | state = s12 | state = s13 | state = s14 | state = s15 | state = s16 | state = s17 | state = s18 | state = s19;
+
+-- B2l: controls traffic flows for BRT in north-east direction (from area 2 to area 4).
+
+	B2l.g	:=	state = s8; 
+
+	B2l.y	:=	state = s7 | state = s9;
+
+	B2l.r	:=	state = s0 | state = s1 | state = s2 |state = s3 |state = s4 |state = s5 | state = s6 | state = s7 | state = s10 | state = s11 | state = s12 | state = s13 | state = s14 | state = s15 | state = s16 | state = s17 | state = s18 | state = s19;
+
+-- =================================================================================================
+
+-- TRAFFIC SIGNALS LOCATED ON AREA 3.
+
+-- C3s: controls traffic flows for non-BRT vehicles in east-west direction (from area 3 to area 4).
+
+	C3s.g	:= state = s10 | state = s11 | state = s12;
+
+	C3s.y	:= state = s9 | state = s13;
+
+	C3s.r	:= state = s0 | state = s1 |state = s2 | state = s3 | state = s4 | state = s5 | state = s6 | state = s7 | state = s8 | state = s9 | state = s14 | state = s15 | state = s16 | state = s17 | state = s18 | state = s19; 
+
+-- C3r: controls traffic flows for non-BRT vehicles in east-north direction (from area 3 to area 1).
+
+	C3r.g	:= state = s10;
+
+	C3r.y	:= state = s9 | state = s11;
+
+	C3r.r	:= state = s0 | state = s1 | state = s2 | state = s3 | state = s4 | state = s5 | state = s6 | state = s7 | state = s8 | state = s9 | state = s12 | state = s13 | state = s14 | state = s15 | state = s16 | state = s17 | state = s18 | state = s19;
+
+-- B3s: controls traffic flows for BRT in east-west direction (from area 3 to area 4).
+
+	B3s.g	:=	 state = s12 | state = s13 | state = s14 ; 
+
+	B3s.y	:=	state = s15| state = s11;
+
+	B3s.r	:=	state = s0 | state = s1  | state = s2 | state = s3| state = s4 | state = s5 | state = s6 | state = s7 | state = s8 | state = s9 | state = s10 | state = s11 | state = s16 | state = s17 | state = s18 | state = s19;
+
+-- B3r: controls traffic flows for BRT in east-north direction (from area 3 to area 1).
+
+	B3r.g	:=	state = s10; 
+
+	B3r.y	:=	state = s9 | state = s11;
+
+	B3r.r	:=	state = s0 | state = s1 |state = s2 | state = s3 | state = s4  | state = s5 | state = s6 | state = s7| state = s8 |state = s9 | state = s12 | state = s13 | state = s14 | state = s15 | state = s16 | state = s17 | state = s18 | state = s19;
+
+-- B3l: controls traffic flows for BRT in east-south direction (from area 3 to area 2).
+
+	B3l.g	:=	state = s14; 
+
+	B3l.y	:=	state = s15 | state = s13;
+
+	B3l.r	:=	state = s0 |state = s1 | state = s2 | state = s3 | state = s4  | state = s5 |state = s6 | state = s7 | state = s8 | state = s9 | state = s10 | state = s11 | state = s12 | state = s13 | state = s16 | state = s17 | state = s18 | state = s19 ;
+
+-- =================================================================================================
+
+-- TRAFFIC SIGNALS LOCATED ON AREA 4.
+
+-- C4s: controls traffic flows for non-BRT vehicles in south-north direction (from area 4 to area 3).
+
+	C4s.g	:= state = s12 | state = s13 | state = s14 | state = s15 | state = s16 ;
+
+	C4s.y	:= state = s11 | state = s17;
+
+	C4s.r	:= state = s0 |state = s1 | state = s2 | state = s3 |state = s4 | state = s5 | state = s6 | state = s7 | state = s8 | state = s9 | state = s10 | state = s11 | state = s18 | state = s19; 
+
+-- C4r: controls traffic flows for non-BRT vehicles in south-east direction (from area 4 to area 2).
+
+	C4r.g	:= state = s16;
+
+	C4r.y	:= state = s15 | state = s17;
+
+	C4r.r	:= state = s0 | state = s1 | state = s2 | state = s3 | state = s4 | state = s5 | state = s6 | state = s7 | state = s8 |state = s9 | state = s10 | state = s11 | state = s12 | state = s13 | state = s14 | state = s15 | state = s18 | state = s19 ;
+
+-- B4s: controls traffic flows for BRT in east-west direction (from area 4 to area 3).
+
+	B4s.g	:= state = s12;
+
+	B4s.y	:= state = s11 | state = s13;
+
+	B4s.r	:= state = s0 |state = s1 | state = s2 | state = s3 | state = s4 | state = s5 | state = s6 | state = s7 | state = s8 | state = s9 | state = s10 | state = s11 | state = s14 | state = s15 | state = s16 | state = s17 | state = s18 | state = s19 ;
+
+-- B4r: controls traffic flows for BRT in east-north direction (from area 4 to area 2).
+
+	B4r.g	:= state = s16;
+
+	B4r.y	:= state = s15 | state = s17;
+
+	B4r.r	:= state = s0 | state = s1 | state = s2 | state = s3 | state = s4 | state = s5 | state = s6 | state = s7 | state = s8 | state = s9 | state = s10 | state = s11 | state = s12 | state = s13 | state = s14 | state = s15 | state = s18 | state = s19;
+
+-- B4l: controls traffic flows for BRT in east-south direction (from area 4 to area 1).
+
+	B4l.g	:= state = s18;
+
+	B4l.y	:= state = s17 | state = s19;
+
+	B4l.r	:= state = s0 | state = s1 | state = s2 | state = s3 | state = s4 | state = s5 | state = s6 | state = s7 | state = s8 | state = s9 | state = s10 | state = s11 | state = s12 | state = s13 | state = s14 | state = s15 | state = s16 | state = s17;
+
+
+
+	
+
+-- =================================================================================================
+
+
+
+-- SPECIFICATIONS
+
+
+
+-- =================================================================================================
+
+-- Safety properties.
+
+
+
+-- S1: for every traffic signal, the light never turns red and green at the same time.
+
+LTLSPEC
+
+G ( ! ( C1s.r & C1s.g ) &  ! ( C1r.r & C1r.g ) &  ! ( C2s.r & C2s.g ) &  ! ( C2r.r & C2r.g ) &  
+
+	! ( C3s.r & C3s.g ) &  ! ( C3r.r & C3r.g ) &  ! ( C4s.r & C4s.g ) &  ! ( C4r.r & C4r.g ) &  
+
+	! ( B1s.r & B1s.g ) &  ! ( B1r.r & B1r.g ) &  ! ( B1l.r & B1l.g ) &  
+
+	! ( B2s.r & B2s.g ) &  ! ( B2r.r & B2r.g ) &  ! ( B2l.r & B2l.g ) &  
+
+	! ( B3s.r & B3s.g ) &  ! ( B3r.r & B3r.g ) &  ! ( B3l.r & B3l.g ) &  
+
+	! ( B4s.r & B4s.g ) &  ! ( B4r.r & B4r.g ) &  ! ( B4l.r & B4l.g ))
+
+	
+
+-- S2: for every traffic signal, once red is the only light on, the light cannot immediately become green.
+
+LTLSPEC	
+
+G ( ( C1s.r & ! C1s.y & ! C1s.g -> ! X C1s.g ) & ( C1r.r & ! C1r.y & ! C1r.g -> ! X C1r.g )	&
+
+	( C2s.r & ! C2s.y & ! C2s.g -> ! X C2s.g ) & ( C2r.r & ! C2r.y & ! C2r.g -> ! X C2r.g ) &	
+
+	( C3s.r & ! C3s.y & ! C3s.g -> ! X C3s.g ) & ( C3r.r & ! C3r.y & ! C3r.g -> ! X C3r.g ) &   
+
+	( C4s.r & ! C4s.y & ! C4s.g -> ! X C4s.g ) & ( C4r.r & ! C4r.y & ! C4r.g -> ! X C4r.g ) &	
+
+	( B1s.r & ! B1s.y & ! B1s.g -> ! X B1s.g ) & ( B1r.r & ! B1r.y & ! B1r.g -> ! X B1r.g ) & ( B1l.r & ! B1l.y & ! B1l.g -> ! X B1l.g ) &	
+
+	( B2s.r & ! B2s.y & ! B2s.g -> ! X B2s.g ) & ( B2r.r & ! B2r.y & ! B2r.g -> ! X B2r.g ) & ( B2l.r & ! B2l.y & ! B2l.g -> ! X B2l.g ) &   
+
+	( B3s.r & ! B3s.y & ! B3s.g -> ! X B3s.g ) & ( B3r.r & ! B3r.y & ! B3r.g -> ! X B3r.g ) & ( B3l.r & ! B3l.y & ! B3l.g -> ! X B3l.g ) &   
+
+	( B4s.r & ! B4s.y & ! B4s.g -> ! X B4s.g ) & ( B4r.r & ! B4r.y & ! B4r.g -> ! X B4r.g ) & ( B4l.y & ! B4l.y & ! B4l.g -> ! X B4l.g) )
+
+	
+
+-- S3: for every traffic signal, once green is the only light on, the light cannot immediately become red.
+
+LTLSPEC
+
+G ( ( ! C1s.r & ! C1s.y & C1s.g -> ! X C1s.r ) & ( ! C1r.r & ! C1r.y & C1r.g -> ! X C1r.r ) &	
+
+	( ! C2s.r & ! C2s.y & C2s.g -> ! X C2s.r ) & ( ! C2r.r & ! C2r.y & C2r.g -> ! X C2r.r ) &	
+
+	( ! C3s.r & ! C3s.y & C3s.g -> ! X C3s.r ) & ( ! C3r.r & ! C3r.y & C3r.g -> ! X C3r.r ) &   
+
+	( ! C4s.r & ! C4s.y & C4s.g -> ! X C4s.r ) & ( ! C4r.r & ! C4r.y & C4r.g -> ! X C4r.r ) &	
+
+	( ! B1s.r & ! B1s.y & B1s.g -> ! X B1s.r ) & ( ! B1r.r & ! B1r.y & B1r.g -> ! X B1r.r ) & ( ! B1l.r & ! B1l.y & B1l.g -> ! X B1l.r ) &	
+
+	( ! B2s.r & ! B2s.y & B2s.g -> ! X B2s.r ) & ( ! B2r.r & ! B2r.y & B2r.g -> ! X B2r.r ) & ( ! B2l.r & ! B2l.y & B2l.g -> ! X B2l.r ) &   
+
+	( ! B3s.r & ! B3s.y & B3s.g -> ! X B3s.r ) & ( ! B3r.r & ! B3r.y & B3r.g -> ! X B3r.r ) & ( ! B3l.r & ! B3l.y & B3l.g -> ! X B3l.r ) &   
+
+	( ! B4s.r & ! B4s.y & B4s.g -> ! X B4s.r ) & ( ! B4r.r & ! B4r.y & B4r.g -> ! X B4r.r ) & ( ! B4l.y & ! B4l.y & B4l.g -> ! X B4l.r ))
+
+
+
+-- S4: for every traffic signal, if red is the only light on, it must be preceded by a yellow light.
+
+LTLSPEC
+
+G ( !(!(C1s.y xor (C1s.r & !C1s.y & !C1s.g)) & X ((C1s.r & !C1s.y & !C1s.g))) & !(!(C1r.y xor (C1r.r & !C1r.y & !C1r.g)) & X ((C1r.r & !C1r.y & !C1r.g))) &
+
+	!(!(C2s.y xor (C2s.r & !C2s.y & !C2s.g)) & X ((C2s.r & !C2s.y & !C2s.g))) & !(!(C2r.y xor (C2r.r & !C2r.y & !C2r.g)) & X ((C2r.r & !C2r.y & !C2r.g))) &
+
+	!(!(C3s.y xor (C3s.r & !C3s.y & !C3s.g)) & X ((C3s.r & !C3s.y & !C3s.g))) & !(!(C3r.y xor (C3r.r & !C3r.y & !C3r.g)) & X ((C3r.r & !C3r.y & !C3r.g))) &
+
+	!(!(C4s.y xor (C4s.r & !C4s.y & !C4s.g)) & X ((C4s.r & !C4s.y & !C4s.g))) & !(!(C4r.y xor (C4r.r & !C4r.y & !C4r.g)) & X ((C4r.r & !C4r.y & !C4r.g))) &
+
+	!(!(B1s.y xor (B1s.r & !B1s.y & !B1s.g)) & X ((B1s.r & !B1s.y & !B1s.g))) & !(!(B1r.y xor (B1r.r & !B1r.y & !B1r.g)) & X ((B1r.r & !B1r.y & !B1r.g))) & !(!(B1l.y xor (B1l.r & !B1l.y & !B1l.g)) & X ((B1l.r & !B1l.y & !B1l.g))) &
+
+	!(!(B2s.y xor (B2s.r & !B2s.y & !B2s.g)) & X ((B2s.r & !B2s.y & !B2s.g))) & !(!(B2r.y xor (B2r.r & !B2r.y & !B2r.g)) & X ((B2r.r & !B2r.y & !B2r.g))) & !(!(B2l.y xor (B2l.r & !B2l.y & !B2l.g)) & X ((B2l.r & !B2l.y & !B2l.g))) &
+
+	!(!(B3s.y xor (B3s.r & !B3s.y & !B3s.g)) & X ((B3s.r & !B3s.y & !B3s.g))) & !(!(B3r.y xor (B3r.r & !B3r.y & !B3r.g)) & X ((B3r.r & !B3r.y & !B3r.g))) & !(!(B3l.y xor (B3l.r & !B3l.y & !B3l.g)) & X ((B3l.r & !B3l.y & !B3l.g))) &
+
+	!(!(B4s.y xor (B4s.r & !B4s.y & !B4s.g)) & X ((B4s.r & !B4s.y & !B4s.g))) & !(!(B4r.y xor (B4r.r & !B4r.y & !B4r.g)) & X ((B4r.r & !B4r.y & !B4r.g))) & !(!(B4l.y xor (B4l.r & !B4l.y & !B4l.g)) & X ((B4l.r & !B4l.y & !B4l.g))) 
+
+)
+
+
+
+-- S5: each pair of the following green lights must not occur concurrently: 
+-- (i) green lights of Cis and Bil, (ii) green lights of Cir and Bil, and (iii) green lights of Cir and Bis
+
+-- for all i \in {1,2,3,4}
+
+LTLSPEC
+
+G  (!(C1s.g & B1l.g) & !(C1r.g & B1l.g) & !(C1r.g & B1s.g) &  
+
+	!(C2s.g & B2l.g) & !(C2r.g & B2l.g) & !(C2r.g & B2s.g) & 
+
+	!(C3s.g & B3l.g) & !(C3r.g & B3l.g) & !(C3r.g & B3s.g) &	
+
+	!(C4s.g & B4l.g) & !(C4r.g & B4l.g) & !(C4r.g & B4s.g) )
+
+
+
+-- S6.1 (conditions when Cis turns green): 
+
+-- (i) green lights of Cis and Cjs, (ii) green lights of Cis and Cjr, (iii) green lights of Cis and Bjr, 
+-- (iv) green lights of Cis and Bjs, and (v) green lights of Cis and Bjl
+
+-- must not occur concurrently. (i,j) \in {(1,3},(3,2), (2,4), (4,1)}
+
+LTLSPEC
+
+G ( (! C1s.g | (! C3s.g & ! C3r.g & ! B3r.g & !B3s.g & ! B3l.g)) & -- (i,j) = (1,3) 
+
+	(! C3s.g | (! C2s.g & ! C2r.g & ! B2r.g & !B2s.g & ! B2l.g)) & -- (i,j) = (3,2)
+
+	(! C2s.g | (! C4s.g & ! C4r.g & ! B4r.g & !B4s.g & ! B4l.g)) & -- (i,j) = (2,4)
+
+	(! C4s.g | (! C1s.g & ! C1r.g & ! B1r.g & !B1s.g & ! B1l.g))   -- (i,j) = (4,1)
+
+)
+
+
+
+-- S6.2 (conditions when Cir turns green): 
+
+-- (i) green lights of Cir and Cjr, (ii) green lights of Cir and Bjr, (iii) green lights of Cir and Bjs, and (iv) green lights of Cir and Bjl
+
+-- must not occur concurrently. (i,j) \in {(1,3},(3,2), (2,4), (4,1)}
+
+LTLSPEC
+
+G ( (!C1r.g | (! C3r.g & ! B3r.g & ! B3s.g & ! B3l.g)) & -- (i,j) = (1.3) 
+
+	(!C3r.g | (! C2r.g & ! B2r.g & ! B2s.g & ! B2l.g)) & -- (i,j) = (3.2)
+
+	(!C2r.g | (! C4r.g & ! B4r.g & ! B4s.g & ! B4l.g)) & -- (i,j) = (2.4)
+
+	(!C4r.g | (! C1r.g & ! B1r.g & ! B1s.g & ! B1l.g))   -- (i,j) = (4.1)
+
+)
+
+-- S6.3 (conditions when Bil turns green): (i) green lights of Bil and Bjs and (ii) green lights of Bil and Bjl.
+
+-- must not occur concurrently. (i,j) \in {(1,3},(3,2), (2,4), (4,1)}
+
+LTLSPEC
+
+G ( (! B1l.g |(! B3s.g & ! B3l.g)) & -- (i,j) = (1.3) 
+
+	(! B3l.g | (! B2s.g & ! B2l.g)) & -- (i,j) = (3.2)
+
+	(! B2l.g | (! B4s.g & ! B4l.g)) & -- (i,j) = (2.4)
+
+	(! B4l.g | (! B1s.g & ! B1l.g))   -- (i,j) = (4.1)
+
+)
+
+
+
+--S6.4 (conditions when Bis turns green): (i) green lights of Bis and Cjs, (ii) green lights of Bis and Cjr, and (iii) green lights of Bis and Bjs
+
+-- must not occur concurrently. (i,j) \in {(1,3},(3,2), (2,4), (4,1)}
+
+LTLSPEC 
+
+G ( (!B1s.g | (! C3s.g & ! C3r.g & ! B3s.g)) & -- (i,j) = (1,3) (! C2s.g & ! C2r.g & ! B2s.g)
+
+	(!B3s.g | (! C2s.g & ! C2r.g & ! B2s.g)) & -- (i,j) = (3,2)
+
+	(!B2s.g | (! C4s.g & ! C4r.g & ! B4s.g)) & -- (i,j) = (2,4)
+
+	(!B4s.g | (! C1s.g & ! C1r.g & ! B1s.g))   -- (i,j) = (4,1)
+
+)
+
+
+
+-- S6.5 (conditions when Bir turns green): green lights of Bir and Cjr must not occur concurrently. (i,j) \in {(1,3},(3,2), (2,4), (4,1)}
+
+LTLSPEC 
+
+G ( !(B1r.g & C3r.g) & !(B3r.g & C2r.g) & !(B2r.g & C4r.g) & !(B4r.g & C1r.g) )
+
+
+
+-- S7.1 (conditions when Cis turns green): (i) green lights of Cis and Cjr and (ii) green lights of Cis and Bjr
+
+-- must not occur concurrently. (i,j) \in {(1,2),(3,4),(2,1),(4,3)}.
+
+LTLSPEC
+
+G ( (! C1s.g | (! C2r.g & ! B2r.g)) & -- (i,j) = (1,2) 
+
+	(! C3s.g | (! C4r.g & ! B4r.g)) & -- (i,j) = (3,4)
+
+	(! C2s.g | (! C1r.g & ! B1r.g)) & -- (i,j) = (2,1)
+
+	(! C4s.g | (! C3r.g & ! B3r.g))   -- (i,j) = (4,3)
+
+)
+
+
+
+-- S7.2 (conditions when Cir turns green): (i) green lights of Cir and Cjr, (ii) green lights of Cir and Cjs, (iii) green lights of Cir and Bjr, (iv) green lights of Cir and Bjs, and (v) green lights of Cir and Bjl
+
+-- must not occur concurrently. (i,j) \in {(1,2),(3,4),(2,1),(4,3)}.
+
+LTLSPEC
+
+G ( (! C1r.g | (! C2r.g & ! C2s.g & ! B2r.g & ! B2s.g & ! B2l.g)) & -- (i,j) = (1,2) 
+
+	(! C3r.g | (! C4r.g & ! C4s.g & ! B4r.g & ! B4s.g & ! B4l.g)) & -- (i,j) = (3,4)
+
+	(! C2r.g | (! C1r.g & ! C1s.g & ! B1r.g & ! B1s.g & ! B1l.g)) & -- (i,j) = (2,1)
+
+	(! C4r.g | (! C3r.g & ! C3s.g & ! B3r.g & ! B3s.g & ! B3l.g))   -- (i,j) = (4,3)
+
+)
+
+
+
+-- S7.3 (conditions when Bil turns green): (i) green lights of Bil and Cjr, (ii) green lights of Bil and Bjs, and (iii) green lights of Bil and Bjl
+
+-- must not occur concurrently. (i,j) \in {(1,2),(3,4),(2,1),(4,3)}.
+
+LTLSPEC
+
+G ( (! B1l.g | (! C2r.g & ! B2s.g & ! B2l.g)) & -- (i,j) = (1,2) 
+
+	(! B3l.g | (! C4r.g & ! B4s.g & ! B4l.g)) & -- (i,j) = (3,4)
+
+	(! B2l.g | (! C1r.g & ! B1s.g & ! B1l.g)) & -- (i,j) = (2,1)
+
+	(! B4l.g | (! C3r.g & ! B3s.g & ! B3l.g))   -- (i,j) = (4,3)
+
+)
+
+
+
+-- S7.4 (conditions when Bis turns green): (i) green lights of Bis and Cjr and (ii) green lights of Bis and Bjl
+
+-- must not occur concurrently. (i,j) \in {(1,2),(3,4),(2,1),(4,3)}.
+
+LTLSPEC
+
+G ( (! B1s.g | (! C2r.g & ! B2l.g)) & -- (i,j) = (1,2)  
+
+	(! B3s.g | (! C4r.g & ! B4l.g)) & -- (i,j) = (3,4)
+
+	(! B2s.g | (! C1r.g & ! B1l.g)) & -- (i,j) = (2,1)
+
+	(! B4s.g | (! C3r.g & ! B3l.g))   -- (i,j) = (4,3)
+
+)
+
+
+
+-- S7.5 (conditions when Bir turns green): (i) green lights of Bir and Cjs and (ii) green lights of Bir and Cjr
+
+-- must not occur concurrently. (i,j) \in {(1,2),(3,4),(2,1),(4,3)}.
+
+LTLSPEC
+
+G ( ( ! B1r.g | (! C2s.g & ! C2r.g)) & -- (i,j) = (1,2)   
+
+	( ! B3r.g | (! C4s.g & ! C4r.g)) & -- (i,j) = (3,4)
+
+	( ! B2r.g | (! C1s.g & ! C1r.g)) & -- (i,j) = (2,1)
+
+	( ! B4r.g | (! C3s.g & ! C3r.g))   -- (i,j) = (4,3)
+
+)
+
+
+
+
+
+-- =================================================================================================
+
+-- Liveness properties.
+
+
+
+-- L1: for every traffic signal, the light turns green infinitely often (also considered as a unconditional fairness constraint).
+
+LTLSPEC
+
+	G F (C1s.g) & G F (C1r.g) & G F (C2s.g) & G F (C2r.g) &  G F (C3s.g) & G F (C3r.g) & G F (C4s.g) & G F (C4r.g) & 
+
+	G F (B1s.g) & G F (B1r.g) & G F (B1l.g) &
+
+	G F (B2s.g) & G F (B2r.g) & G F (B2l.g) &
+
+	G F (B3s.g) & G F (B3r.g) & G F (B3l.g) &
+
+	G F (B4s.g) & G F (B4r.g) & G F (B4l.g) 
+
+
+
+-- L2: for every traffic signal, once the light turns red, it will eventually turn green.
+
+LTLSPEC
+
+	G ( (C1s.r -> F C1s.g) & (C1r.r -> F C1r.g) & (C2s.r -> F C2s.g) & (C2r.r -> F C2r.g) &
+
+		(C3s.r -> F C3s.g) & (C3r.r -> F C3r.g) & (C4s.r -> F C4s.g) & (C4r.r -> F C4r.g) &
+
+		(B1s.r -> F B1s.g) & (B1r.r -> F B1r.g) & (B1l.r -> F B1l.g) & 
+
+		(B2s.r -> F B2s.g) & (B2r.r -> F B2r.g) & (B2l.r -> F B2l.g) &
+
+		(B3s.r -> F B3s.g) & (B3r.r -> F B3r.g) & (B3l.r -> F B3l.g) &
+
+		(B4s.r -> F B4s.g) & (B4r.r -> F B4r.g) & (B4l.r -> F B4l.g))
+
+-- L3: for every traffic signal, once the light turns green, it will eventually turn red.
+
+LTLSPEC
+
+	G ( (C1s.g -> F C1s.r) & (C1r.g -> F C1r.r) & (C2s.g -> F C2s.r) & (C2r.g -> F C2r.r) &
+
+		(C3s.g -> F C3s.r) & (C3r.g -> F C3r.r) & (C4s.g -> F C4s.r) & (C4r.g -> F C4r.r) &
+
+		(B1s.g -> F B1s.r) & (B1r.g -> F B1r.r) & (B1l.g -> F B1l.r) & 
+
+		(B2s.g -> F B2s.r) & (B2r.g -> F B2r.r) & (B2l.g -> F B2l.r) &
+
+		(B3s.g -> F B3s.r) & (B3r.g -> F B3r.r) & (B3l.g -> F B3l.r) &
+
+		(B4s.g -> F B4s.r) & (B4r.g -> F B4r.r) & (B4l.g -> F B4l.r))
+
+
+
+-- L4: for every traffic signal, once the light turns yellow, it will eventually either turn red or green, but not both.
+
+LTLSPEC
+
+	G ( (C1s.y -> F(C1s.r xor C1s.g)) & (C1r.y -> F(C1r.r xor C1r.g)) &
+
+		(C2s.y -> F(C2s.r xor C2s.g)) & (C2r.y -> F(C2r.r xor C2r.g)) &
+
+		(C3s.y -> F(C3s.r xor C3s.g)) & (C3r.y -> F(C3r.r xor C3r.g)) &
+
+		(C4s.y -> F(C4s.r xor C4s.g)) & (C4r.y -> F(C4r.r xor C4r.g)) &
+
+		(B1s.y -> F(B1s.r xor B1s.g)) & (B1r.y -> F(B1r.r xor B1r.g)) & (B1l.y -> F(B1l.r xor B1l.g)) &
+
+		(B2s.y -> F(B2s.r xor B2s.g)) & (B2r.y -> F(B2r.r xor B2r.g)) & (B2l.y -> F(B2l.r xor B2l.g)) &
+
+		(B3s.y -> F(B3s.r xor B3s.g)) & (B3r.y -> F(B3r.r xor B3r.g)) & (B3l.y -> F(B3l.r xor B3l.g)) &
+
+		(B4s.y -> F(B4s.r xor B4s.g)) & (B4r.y -> F(B4r.r xor B4r.g)) & (B4l.y -> F(B4l.r xor B4l.g))
+
+		)
+
+
+
+-- L5: for every traffic signal, once red is the only light on, such condition remains until both red and yellow lights are simultaneously turned on.
+
+LTLSPEC
+
+G ((( C1s.r & !  C1s.y & ! C1s.g ) -> (( C1s.r & !  C1s.y & ! C1s.g ) U ( C1s.r & C1s.y ))) &
+
+   (( C1r.r & !  C1r.y & ! C1r.g ) -> (( C1r.r & !  C1r.y & ! C1r.g ) U ( C1r.r & C1r.y ))) &	
+
+   (( C2s.r & !  C2s.y & ! C2s.g ) -> (( C2s.r & !  C2s.y & ! C2s.g ) U ( C2s.r & C2s.y ))) &	
+
+   (( C2r.r & !  C2r.y & ! C2r.g ) -> (( C2r.r & !  C2r.y & ! C2r.g ) U ( C2r.r & C2r.y ))) & 
+
+   (( C3s.r & !  C3s.y & ! C3s.g ) -> (( C3s.r & !  C3s.y & ! C3s.g ) U ( C3s.r & C3s.y ))) &	
+
+   (( C3r.r & !  C3r.y & ! C3r.g ) -> (( C3r.r & !  C3r.y & ! C3r.g ) U ( C3r.r & C3r.y ))) &
+
+   (( C4s.r & !  C4s.y & ! C4s.g ) -> (( C4s.r & !  C4s.y & ! C4s.g ) U ( C4s.r & C4s.y ))) &	
+
+   (( C4r.r & !  C4r.y & ! C4r.g ) -> (( C4r.r & !  C4r.y & ! C4r.g ) U ( C4r.r & C4r.y ))) &
+
+   (( B1r.r & !  B1r.y & ! B1r.g ) -> (( B1r.r & !  B1r.y & ! B1r.g ) U ( B1r.r & B1r.y ))) &	
+
+   (( B1s.r & !  B1s.y & ! B1s.g ) -> (( B1s.r & !  B1s.y & ! B1s.g ) U ( B1s.r & B1s.y ))) &	
+
+   (( B1l.r & !  B1l.y & ! B1l.g ) -> (( B1l.r & !  B1l.y & ! B1l.g ) U ( B1l.r & B1l.y ))) &	 
+
+   (( B2r.r & !  B2r.y & ! B2r.g ) -> (( B2r.r & !  B2r.y & ! B2r.g ) U ( B2r.r & B2r.y ))) &
+
+   (( B2s.r & !  B2s.y & ! B2s.g ) -> (( B2s.r & !  B2s.y & ! B2s.g ) U ( B2s.r & B2s.y ))) &	
+
+   (( B2l.r & !  B2l.y & ! B2l.g ) -> (( B2l.r & !  B2l.y & ! B2l.g ) U ( B2l.r & B2l.y ))) &	
+
+   (( B3r.r & !  B3r.y & ! B3r.g ) -> (( B3r.r & !  B3r.y & ! B3r.g ) U ( B3r.r & B3r.y ))) &	
+
+   (( B3s.r & !  B3s.y & ! B3s.g ) -> (( B3s.r & !  B3s.y & ! B3s.g ) U ( B3s.r & B3s.y ))) &	
+
+   (( B3l.r & !  B3l.y & ! B3l.g ) -> (( B3l.r & !  B3l.y & ! B3l.g ) U ( B3l.r & B3l.y ))) &	
+
+   (( B4r.r & !  B4r.y & ! B4r.g ) -> (( B4r.r & !  B4r.y & ! B4r.g ) U ( B4r.r & B4r.y ))) &
+
+   (( B4s.r & !  B4s.y & ! B4s.g ) -> (( B4s.r & !  B4s.y & ! B4s.g ) U ( B4s.r & B4s.y ))) &
+
+   (( B4l.r & !  B4l.y & ! B4l.g ) -> (( B4l.r & !  B4l.y & ! B4l.g ) U ( B4l.r & B4l.y ))))
+
+ 
+
+-- L6: for every traffic signal, once red and yellow lights are simultaneously turned on, such conditions remains until the signal turns green.
+
+LTLSPEC
+
+G ( (( C1s.r & C1s.y & !  C1s.g ) -> (( C1s.r & C1s.y & !   C1s.g ) U ( C1s.g ))) &   
+
+	(( C1r.r & C1r.y & !  C1r.g ) -> (( C1r.r & C1r.y & !   C1r.g ) U ( C1r.g ))) &	
+
+	(( C2s.r & C2s.y & !  C2s.g ) -> (( C2s.r & C2s.y & !	C2s.g ) U ( C2s.g ))) &	
+
+	(( C2r.r & C2r.y & !  C2r.g ) -> (( C2r.r & C2r.y & !	C2r.g ) U ( C2r.g ))) &	
+
+	(( C3s.r & C3s.y & !  C3s.g ) -> (( C3s.r & C3s.y & !	C3s.g ) U ( C3s.g ))) &   
+
+	(( C3r.r & C3r.y & !  C3r.g ) -> (( C3r.r & C3r.y & !   C3r.g ) U ( C3r.g ))) &	
+
+	(( C4s.r & C4s.y & !  C4s.g ) -> (( C4s.r & C4s.y & !	C4s.g ) U ( C4s.g ))) &	
+
+	(( C4r.r & C4r.y & !  C4r.g ) -> (( C4r.r & C4r.y & !	C4r.g ) U ( C4r.g ))) &   
+
+	(( B1r.r & B1r.y & !  B1r.g ) -> (( B1r.r & B1r.y & !	B1r.g ) U ( B1r.g ))) &	
+
+	(( B1s.r & B1s.y & !  B1s.g ) -> (( B1s.r & B1s.y & !	B1s.g ) U ( B1s.g ))) &	
+
+	(( B1l.r & B1l.y & !  B1l.g ) -> (( B1l.r & B1l.y & !	B1l.g ) U ( B1l.g ))) &	
+
+	(( B2r.r & B2r.y & !  B2r.g ) -> (( B2r.r & B2r.y & !	B2r.g ) U ( B2r.g ))) &	
+
+	(( B2s.r & B2s.y & !  B2s.g ) -> (( B2s.r & B2s.y & !	B2s.g ) U ( B2s.g ))) &	
+
+	(( B2l.r & B2l.y & !  B2l.g ) -> (( B2l.r & B2l.y & !	B2l.g ) U ( B2l.g ))) &	
+
+	(( B3r.r & B3r.y & !  B3r.g ) -> (( B3r.r & B3r.y & !	B3r.g ) U ( B3r.g ))) &	
+
+	(( B3s.r & B3s.y & !  B3s.g ) -> (( B3s.r & B3s.y & !	B3s.g ) U ( B3s.g ))) &	
+
+	(( B3l.r & B3l.y & !  B3l.g ) -> (( B3l.r & B3l.y & !	B3l.g ) U ( B3l.g ))) &	
+
+	(( B4r.r & B4r.y & !  B4r.g ) -> (( B4r.r & B4r.y & !	B4r.g ) U ( B4r.g ))) &	
+
+	(( B4s.r & B4s.y & !  B4s.g ) -> (( B4s.r & B4s.y & !	B4s.g ) U ( B4s.g ))) &	
+
+	(( B4l.r & B4l.y & !  B4l.g ) -> (( B4l.r & B4l.y & !	B4l.g ) U ( B4l.g ))))
+
+
+
+-- =================================================================================================
+
+-- Fairness Constraints.
+
+
+
+-- F1 (unconditional fairness constraint): for every traffic signal, the light turns green infinitely often (F1 is identical to L1). 
+
+
+
+-- F2 (unconditional fairness constraint): for every traffic signal, the light turns red infinitely often.
+
+LTLSPEC
+
+	G F (C1s.r) & G F (C1r.r) & G F (C2s.r) & G F (C2r.r) &  G F (C3s.r) & G F (C3r.r) & G F (C4s.r) & G F (C4r.r) & 
+
+	G F (B1s.r) & G F (B1r.r) & G F (B1l.r) &
+
+	G F (B2s.r) & G F (B2r.r) & G F (B2l.r) &
+
+	G F (B3s.r) & G F (B3r.r) & G F (B3l.r) &
+
+	G F (B4s.r) & G F (B4r.r) & G F (B4l.r) 
+
+
+
+-- F3 (strong fairness constraint): for every traffic signal, if the light turns red infinitely often, then it also turns green infinitely often.
+
+ LTLSPEC
+
+	(G F (C1s.r) -> G F (C1s.g)) & (G F (C1r.r) -> G F (C1r.g)) & 
+
+	(G F (C2s.r) -> G F (C2s.g)) & (G F (C2r.r) -> G F (C2r.g)) &
+
+	(G F (C3s.r) -> G F (C3s.g)) & (G F (C3r.r) -> G F (C3r.g)) &	
+
+	(G F (C4s.r) -> G F (C4s.g)) & (G F (C4r.r) -> G F (C4r.g)) &
+
+	(G F (B1s.r) -> G F (B1s.g)) & (G F (B1r.r) -> G F (B1r.g)) & (G F (B1l.r) -> G F (B1l.g)) & 
+
+	(G F (B2s.r) -> G F (B2s.g)) & (G F (B2r.r) -> G F (B2r.g)) & (G F (B2l.r) -> G F (B2l.g)) &
+
+	(G F (B3s.r) -> G F (B3s.g)) & (G F (B3r.r) -> G F (B3r.g)) & (G F (B3l.r) -> G F (B3l.g)) &
+
+	(G F (B4s.r) -> G F (B4s.g)) & (G F (B4r.r) -> G F (B4r.g)) & (G F (B4l.r) -> G F (B4l.g))
+
+	
+
+-- F4 (strong fairness constraint): for every traffic signal, if the light turns green infinitely often, then it also turns red infinitely often.
+
+LTLSPEC
+
+	(G F (C1s.g) -> G F (C1s.r)) & (G F (C1r.g) -> G F (C1r.r)) & 
+
+	(G F (C2s.g) -> G F (C2s.r)) & (G F (C2r.g) -> G F (C2r.r)) &
+
+	(G F (C3s.g) -> G F (C3s.r)) & (G F (C3r.g) -> G F (C3r.r)) &	
+
+	(G F (C4s.g) -> G F (C4s.r)) & (G F (C4r.g) -> G F (C4r.r)) &
+
+	(G F (B1s.g) -> G F (B1s.r)) & (G F (B1r.g) -> G F (B1r.r)) & (G F (B1l.g) -> G F (B1l.r)) & 
+
+	(G F (B2s.g) -> G F (B2s.r)) & (G F (B2r.g) -> G F (B2r.r)) & (G F (B2l.g) -> G F (B2l.r)) &
+
+	(G F (B3s.g) -> G F (B3s.r)) & (G F (B3r.g) -> G F (B3r.r)) & (G F (B3l.g) -> G F (B3l.r)) &
+
+	(G F (B4s.g) -> G F (B4s.r)) & (G F (B4r.g) -> G F (B4r.r)) & (G F (B4l.g) -> G F (B4l.r))
